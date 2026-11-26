@@ -156,6 +156,7 @@
   .half-role { margin:0 0 16px; font-weight:600; color:var(--muted); }
   .half-num b { display:block; font-family:var(--font-head); font-weight:var(--head-weight); font-size:34px; line-height:1.05; letter-spacing:var(--head-tracking); color:var(--accent-2); }
   .half-num span { font-size:14px; color:var(--muted); }
+  .half-num b .val-arr { font-size:.5em; margin-left:6px; vertical-align:.55em; }
   .half ul { margin:16px 0 0; padding-left:18px; }
   .half li { margin:6px 0; }
   .half-arrows { display:block; width:100%; height:110px; margin:6px 0 4px; overflow:visible; }
@@ -320,6 +321,9 @@
   .half-join.target .half-tag { color:#79ff72; }
   .half-arrows path, .half-arrows-mobile path { stroke:#0f0f0f; }
 
+  .halves .half-num.multi b .half-link { text-decoration-thickness:2px; text-underline-offset:5px; }
+  .halves .half-num.multi b .val-arr { display:inline !important; color:inherit !important; font-size:.5em !important; line-height:1; margin-left:6px; vertical-align:.55em; }
+
 </style>
 </head>
 <body>
@@ -389,13 +393,13 @@ document.addEventListener('DOMContentLoaded', function () {
       <div class="half">
         <span class="half-tag">02 · Paid → retained</span>
         <h3>I keep them paying</h3>
-        <p class="half-role"></p><div class="half-num multi hl"><small>Eqvanta · fintech app</small><b>12% → 17%</b><span>loan renewals</span></div><div class="half-num multi"><small><a class="half-link" href="https://praktika.ai/" target="_blank" rel="noopener">Praktika.ai ↗</a></small><b>+30%</b><span>1st → 2nd subscription payment</span></div>
+        <p class="half-role"></p><div class="half-num multi hl"><small><a class="half-link" href="https://www.eqvanta.com/" target="_blank" rel="noopener">Eqvanta ↗</a> · fintech app</small><b>12% → 17%</b><span>loan renewals</span></div><div class="half-num multi"><small><a class="half-link" href="https://praktika.ai/" target="_blank" rel="noopener">Praktika.ai ↗</a></small><b>+30%</b><span>1st → 2nd subscription payment</span></div>
         <ul></ul>
       </div>
       <div class="half">
         <span class="half-tag">03 · AI products from zero</span>
         <h3>I&#x27;ve built 3 AI products from scratch</h3>
-        <p class="half-role"></p><div class="half-num multi"><small>As product manager, first employee</small><b>Praktika.ai</b><span>AI language-learning app</span></div><div class="half-num multi"><small>As founder</small><b>GaleAI</b><span>AI quality control for sales teams</span></div><div class="half-num multi hl"><small>As project owner at Algonova</small><b>AI agent</b><span>for chats with leads</span></div>
+        <p class="half-role"></p><div class="half-num multi"><small>As product manager, first employee</small><b><a class="half-link" href="https://praktika.ai/" target="_blank" rel="noopener">Praktika.ai<span class="val-arr">↗</span></a></b><span>AI language-learning app</span></div><div class="half-num multi"><small>As founder</small><b><a class="half-link" href="https://galeai-app.github.io/" target="_blank" rel="noopener">GaleAI<span class="val-arr">↗</span></a></b><span>AI quality control for sales teams</span></div><div class="half-num multi hl"><small>As project owner at Algonova</small><b>AI agent</b><span>for chats with leads</span></div>
         <ul></ul>
       </div>
       <div class="half">
