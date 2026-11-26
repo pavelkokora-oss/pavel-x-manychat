@@ -270,9 +270,79 @@
   .video-badge { background:#fa0cf7; color:#ffffff; font-family:var(--font-head); font-weight:800; font-size:17px; padding:8px 16px 9px; border-radius:999px; transform:rotate(-4deg); }
   body > footer { display:none !important; }
   .cta .wrap::before { content:""; display:block; width:200px; height:200px; border-radius:50%; background:url(pavel-cta.jpg) center/cover no-repeat; margin:0 0 28px; border:4px solid #fa0cf7; }
+  /* four puzzle pieces in Manychat colours (manychat.com: #fff100, #3b42c4, #007257, #fa0cf7, #0f0f0f) */
+  .halves { overflow-x:clip; }
+  .halves .half-role:empty, .halves .half ul:empty { display:none; }
+  .halves .half { --pc:#fff100; --pink:#0f0f0f; border:0; box-shadow:none; color:#ffffff; }
+  .halves .half:nth-child(1) { background:#fff100; color:#0f0f0f; --hlv:#fff100; }
+  .halves .half:nth-child(2) { background:#3b42c4; --hlv:#79ff72; }
+  .halves .half:nth-child(3) { background:#007257; --hlv:#79ff72; }
+  .halves .half:nth-child(4) { background:#fa0cf7; --hlv:#fa0cf7; }
+  .halves .half h3 { color:inherit; font-size:clamp(24px,2.4vw,30px); line-height:1.1; margin:0 0 6px; }
+  .halves .half .half-tag { color:inherit; opacity:.85; font-weight:700; }
+  .halves .half-num.multi { background:#ffffff; color:#0f0f0f; border-radius:14px; padding:12px 16px; margin-top:12px; }
+  .halves .half-num.multi small { display:block; font-size:13px; font-weight:700; color:#0f0f0f; margin-bottom:2px; }
+  .halves .half-num.multi small .half-link { color:#0f0f0f; text-decoration-thickness:1.5px; text-underline-offset:3px; }
+  .halves .half-num.multi b { color:#0f0f0f; }
+  .halves .half-num.multi span { color:#5c5c5c; }
+  .halves .half-num.multi.hl { background:#0f0f0f; }
+  .halves .half-num.multi.hl small, .halves .half-num.multi.hl small .half-link, .halves .half-num.multi.hl span { color:#ffffff; }
+  .halves .half-num.multi.hl b { color:var(--hlv); }
+  /* piece 3: ad clicks → whole business unit, as a timeline */
+  .halves .half:nth-child(3) ul { list-style:none; margin:16px 0 0; padding:0 0 0 20px; border-left:2px dotted #79ff72; }
+  .halves .half:nth-child(3) li { position:relative; margin:0 0 14px; font-size:17px; line-height:1.4; color:#ffffff; }
+  .halves .half:nth-child(3) li::before { content:""; position:absolute; left:-27px; top:6px; width:12px; height:12px; border-radius:50%; background:#79ff72; }
+  .halves .half:nth-child(3) li:last-child { margin-bottom:0; background:#ffffff; color:#0f0f0f; font-weight:700; border-radius:14px; padding:12px 16px; font-size:18px; }
+  .halves .half:nth-child(3) li:last-child::before { top:18px; }
+  @media (min-width:761px) {
+    .halves .half-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0; max-width:980px; margin-left:auto; margin-right:auto; filter:drop-shadow(0 10px 26px rgba(15,15,15,.12)); }
+    .halves .half { position:relative; border-radius:0; padding:42px 46px; }
+    .halves .half:nth-child(1) { border-top-left-radius:24px; z-index:3; }
+    .halves .half:nth-child(2) { border-top-right-radius:24px; z-index:2; }
+    .halves .half:nth-child(3) { border-bottom-left-radius:24px; z-index:2; }
+    .halves .half:nth-child(4) { border-bottom-right-radius:24px; z-index:1; }
+    .halves .half::before, .halves .half::after { content:""; position:absolute; width:58px; height:58px; border-radius:50%; background:inherit; display:none; }
+    .halves .half:nth-child(1)::after, .halves .half:nth-child(3)::after { display:block; right:-29px; top:calc(50% - 29px); }
+    .halves .half:nth-child(1)::before, .halves .half:nth-child(2)::before { display:block; bottom:-29px; left:calc(50% - 29px); }
+    .half-arrows { display:none; }
+    .half-arrows-mobile { display:block; }
+    .halves .half-grid { --q: calc(1 - var(--p, 1)); }
+    .halves .half:nth-child(1) { transform:translate(calc(-60px * var(--q)), calc(-44px * var(--q))) rotate(calc(-2deg * var(--q))); }
+    .halves .half:nth-child(2) { transform:translate(calc(60px * var(--q)), calc(-44px * var(--q))) rotate(calc(2deg * var(--q))); }
+    .halves .half:nth-child(3) { transform:translate(calc(-60px * var(--q)), calc(44px * var(--q))) rotate(calc(1.5deg * var(--q))); }
+    .halves .half:nth-child(4) { transform:translate(calc(60px * var(--q)), calc(44px * var(--q))) rotate(calc(-1.5deg * var(--q))); }
+    .halves .half { will-change:transform; }
+  }
+  @media (max-width:760px) { .halves .half { border-radius:20px; } .halves .half-num.multi b { font-size:26px; } }
+  .half-join.target { background:#0f0f0f; color:#ffffff; border:0; border-radius:24px; padding:28px var(--card-pad); }
+  .half-join.target h3 { color:#fff100; }
+  .half-join.target p { color:#ffffff; }
+  .half-join.target .half-tag { color:#79ff72; }
+  .half-arrows path, .half-arrows-mobile path { stroke:#0f0f0f; }
+
 </style>
 </head>
 <body>
+<script>
+/* Puzzle pieces start apart and slide together while the block scrolls into view (desktop only). */
+document.addEventListener('DOMContentLoaded', function () {
+  var grid = document.querySelector('.halves .half-grid');
+  if (!grid) return;
+  var mq = window.matchMedia('(min-width:761px)'), rm = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var ticking = false;
+  function update() {
+    ticking = false;
+    if (!mq.matches || rm.matches) { grid.style.setProperty('--p', 1); return; }
+    var vh = window.innerHeight, top = grid.getBoundingClientRect().top;
+    var p = (vh - top) / (vh * 0.75);
+    grid.style.setProperty('--p', Math.max(0, Math.min(1, p)).toFixed(3));
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+});
+</script>
 
 <section class="hero">
   <div class="wrap">
@@ -307,53 +377,39 @@
 
 <section class="band halves" id="match">
   <div class="wrap">
-    <p class="kicker">How what I&#x27;ve done meets Manychat Growth</p>
-    <h2>First touch → paid,<br>then paid again.</h2>
-    <div class="half-grid" style="--cols:3">
+    <p class="kicker">Why it&#x27;s a match</p>
+    <h2>Four pieces that fit<br>your Growth team.</h2>
+    <div class="half-grid" style="--cols:4">
       <div class="half">
-        <span class="half-tag">AI app · Subscriptions</span>
-        <h3><a class="half-link" href="https://praktika.ai/" target="_blank" rel="noopener">Praktika.ai ↗</a></h3>
-        <p class="half-role">First employee, PM · 2021–2023</p><div class="half-num multi hl"><b>1.5x+</b><span>free trial → paid</span></div><div class="half-num multi"><b>+30%</b><span>1st → 2nd subscription payment</span></div><div class="half-num multi"><b>$55M ARR</b><span>Praktika today</span></div>
+        <span class="half-tag">01 · Sign-up → first value → paid</span>
+        <h3>I grow conversion to paid</h3>
+        <p class="half-role"></p><div class="half-num multi hl"><small><a class="half-link" href="https://praktika.ai/" target="_blank" rel="noopener">Praktika.ai ↗</a> · now $55M ARR</small><b>1.5x+</b><span>free trial → paid</span></div><div class="half-num multi"><small><a class="half-link" href="https://algonova.com/" target="_blank" rel="noopener">Algonova ↗</a> · sign-up → first value</small><b>13% → 23.5%</b><span>lead → trial class attendance</span></div>
         <ul></ul>
       </div>
       <div class="half">
-        <span class="half-tag">WhatsApp funnel · AI agent</span>
-        <h3><a class="half-link" href="https://algonova.com/" target="_blank" rel="noopener">Algonova ↗</a></h3>
-        <p class="half-role">Product Leader → Head of LatAm · 2025–2026</p><div class="half-num multi hl"><b>13% → 23.5%</b><span>lead → trial class attendance</span></div><div class="half-num multi"><b>~25%</b><span>of lead chats moved to our own AI agent</span></div><div class="half-num multi"><b>Manychat user</b><span>and Chatfuel too</span></div>
+        <span class="half-tag">02 · Paid → retained</span>
+        <h3>I keep them paying</h3>
+        <p class="half-role"></p><div class="half-num multi hl"><small><a class="half-link" href="https://praktika.ai/" target="_blank" rel="noopener">Praktika.ai ↗</a></small><b>+30%</b><span>1st → 2nd subscription payment</span></div><div class="half-num multi"><small>Eqvanta · fintech app</small><b>12% → 17%</b><span>loan renewals</span></div>
         <ul></ul>
       </div>
       <div class="half">
-        <span class="half-tag">Fintech app · Renewals</span>
-        <h3>Eqvanta</h3>
-        <p class="half-role">Head of Product · 2023–2024</p><div class="half-num multi hl"><b>12% → 17%</b><span>loan renewals</span></div><div class="half-num multi"><b>+15%</b><span>D1/7/30 retention with the new app</span></div>
+        <span class="half-tag">03 · 10,000+ hours in funnels</span>
+        <h3>Every stage, by hand</h3>
+        <p class="half-role"></p>
+        <ul><li>Started with ad clicks</li><li>Then leads, first purchase, repeat purchase</li><li>Ended as Head of LatAm: owned all the revenue of the business unit</li></ul>
+      </div>
+      <div class="half">
+        <span class="half-tag">04 · Manychat user</span>
+        <h3>I know the client&#x27;s pain first-hand</h3>
+        <p class="half-role"></p><div class="half-num multi"><small><a class="half-link" href="https://algonova.com/" target="_blank" rel="noopener">Algonova ↗</a> · we were a client</small><b>Manychat + Chatfuel</b><span>automated WhatsApp chats with leads</span></div><div class="half-num multi hl"><small>Built our own AI agent</small><b>~25%</b><span>of lead chats moved to it</span></div>
         <ul></ul>
       </div>
     </div>
     <svg class="half-arrows" viewBox="0 0 1000 150" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M167,4 C167,90 500,60 500,140"/><path d="M500,4 C500,90 500,60 500,140"/><path d="M833,4 C833,90 500,60 500,140"/>
+      <path d="M125,4 C125,90 500,60 500,140"/><path d="M375,4 C375,90 500,60 500,140"/><path d="M625,4 C625,90 500,60 500,140"/><path d="M875,4 C875,90 500,60 500,140"/>
     </svg>
     <svg class="half-arrows-mobile" viewBox="0 0 20 60" aria-hidden="true"><path d="M10,2 L10,56"/></svg>
     <div class="half-join target"><span class="half-tag">Manychat · Staff PM, Growth</span><h3>Sign-up → first value → paid → retained</h3><p>That&#x27;s why I can do it with you.</p></div>
-  </div>
-</section>
-<section class="band funnel-band" id="superpower">
-  <div class="wrap">
-    <p class="kicker">My superpower</p>
-    <h2>My 10,000+ hours went into funnels.<br>I&#x27;ve worked on every stage.</h2>
-    <div class="funnel">
-      <div class="funnel-step solo" style="--i:0; --n:3">
-        <b>Ad clicks</b>
-      </div>
-      <div class="funnel-step solo" style="--i:1; --n:3">
-        <b>Landing page → lead</b>
-      </div>
-      <div class="funnel-step deep solo" style="--i:2; --n:3">
-        <b>Lead → first purchase</b>
-      </div>
-      <div class="funnel-step deep solo" style="--i:3; --n:3">
-        <b>First purchase → repeated purchase</b>
-      </div>
-    </div>
   </div>
 </section>
 
